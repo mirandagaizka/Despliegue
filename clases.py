@@ -23,6 +23,7 @@ class Taller:
             return True
         return False
 
+
 class SistemaReservas:
     def __init__(self):
         self.talleres = []
@@ -30,10 +31,22 @@ class SistemaReservas:
     def agregar_taller(self, taller):
         self.talleres.append(taller)
 
-    def registrar_participante_en_taller(self, participante, taller):
-        if taller in self.talleres:
-            return taller.inscribir_participante(participante)
-        return False
+    def procesar_pago(self, participante, monto):
+        """Simula una pasarela de pago. Devuelve True si exitoso, False si falla."""
+        if monto > 0:
+            print(f"  💳 Pago de {monto}€ procesado para {participante.nombre}")
+            return True
+        else:
+            print(f"  ❌ Pago fallido para {participante.nombre} (monto inválido)")
+            return False
+
+    def registrar_participante_en_taller(self, participante, taller, monto=10):
+        """Solo registra si el pago es exitoso y el taller existe."""
+        if taller not in self.talleres:
+            return False
+        if not self.procesar_pago(participante, monto):
+            return False
+        return taller.inscribir_participante(participante)
 
     def listar_participantes_taller(self, taller):
         return [p.nombre for p in taller.lista_inscritos]

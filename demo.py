@@ -1,7 +1,7 @@
 from clases import Participante, Taller, SistemaReservas
 
 def main():
-    print("=== DEMO DEL SISTEMA DE RESERVAS DE TALLERES DE MODA ===\n")
+    print("=== DEMO DEL SISTEMA DE RESERVAS DE TALLERES DE MODA VERSION 2 ===\n")
 
     # Crear participantes
     p1 = Participante("Ana", 20, "ana@mail.com")
@@ -22,17 +22,21 @@ def main():
     print(f"Talleres disponibles: {taller1.nombre} ({taller1.limite_asistentes} cupos), "
           f"{taller2.nombre} ({taller2.limite_asistentes} cupos)\n")
 
-    # Inscribir participantes a través del sistema
+    # Inscribir participantes — p2 tiene monto 0 para simular pago fallido
     print("Inscribiendo participantes en taller1 mediante SistemaReservas:")
+    montos = {p1: 50, p2: 0, p3: 30}  # Luis no paga → falla
+
     for participante in [p1, p2, p3]:
-        resultado = sistema.registrar_participante_en_taller(participante, taller1)
+        resultado = sistema.registrar_participante_en_taller(
+            participante, taller1, monto=montos[participante]
+        )
         print(f"- {participante.nombre}: {resultado}")
 
     print(f"\nCupos restantes en {taller1.nombre}: {taller1.cupos_disponibles()}\n")
 
     # Registrar un participante en taller2
     print("Registrando participante en taller2 mediante SistemaReservas:")
-    resultado = sistema.registrar_participante_en_taller(p3, taller2)
+    resultado = sistema.registrar_participante_en_taller(p3, taller2, monto=20)
     print(f"- {p3.nombre} inscrito en {taller2.nombre}? {resultado}\n")
 
     # Listado final de participantes
